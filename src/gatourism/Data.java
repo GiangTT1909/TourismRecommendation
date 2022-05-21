@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -22,6 +23,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Tran Thi Nguyet Ha
  */
 public class Data {
+    
+    public static double MAX_HAPPINESS = 886.4000000000004;
+    public static double MIN_HAPPINESS = 171.3;
+
+    public static double MAX_NUMBER_OF_DESTINATION = 28;
+    public static double MIN_NUMBER_OF_DESTINATION = 0;
+    
+    public static double MAX_WATING_TIME = 43191.16;
+    public static double MIN_WATING_TIME = 0;
+    
+    public static double MAX_DISTANCE = 43191.16;
+    public static double MIN_DISTANCE = 0;
+    
     int P; // Number destinations;
     Destination[] POI = new Destination[550]; // Destination
     int F; // Number of Factors
@@ -43,7 +57,7 @@ public class Data {
     double w1;
     double w2;
     double w3;
-    
+    double w4;
     
     public Data() {
 
@@ -119,6 +133,49 @@ public class Data {
                 data.D[i][j] = sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
             }
         }
+        
+         // calc max values
+        MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
+        MAX_DISTANCE = data.calcMaxDistance();
+        
+        
+        MIN_NUMBER_OF_DESTINATION = 0;
+        
         return data;
+    }
+    
+    public int calcMaxNumberOfDestination(){
+        double[] costArray = new double[500];
+        for (int i = 0; i < this.POI.length; i++){
+            costArray[i] = this.POI[i].getCost() ;
+        }
+        Arrays.sort(costArray);
+        double totalBudget = Arrays.stream(this.C_max).sum();
+        int count = 0;
+        double currentBudget = 0;
+        for (int i = 0; i < costArray.length; i++){
+            currentBudget += costArray[i];
+            if (currentBudget >= totalBudget){
+                count = i;
+                break;
+            }
+        }
+        return count;
+    }
+    
+    public double calcMaxDistance(){
+        double maxElement = Double.MIN_VALUE;
+        for (int i = 0; i < P; i++) {
+            for (int j = 0; j < P; j++) {
+                if (D[i][j] > maxElement) {
+                    maxElement = D[i][j];
+                }
+            }
+        }
+        return maxElement * MAX_NUMBER_OF_DESTINATION;
+    }
+    
+    public double calcMaxHappiness(){
+        return MAX_HAPPINESS;
     }
 }
