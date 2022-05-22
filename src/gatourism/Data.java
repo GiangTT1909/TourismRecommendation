@@ -139,9 +139,12 @@ public class Data {
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
         MAX_DISTANCE = data.calcMaxDistance();
         MAX_HAPPINESS = data.calcMaxHappiness();
+        MAX_WATING_TIME = data.calcMaxWaitingTime();
         
         MIN_NUMBER_OF_DESTINATION = 0;
         MIN_DISTANCE = 0;
+        MIN_HAPPINESS = 0;
+        MIN_WATING_TIME = 0;
         
         return data;
     }
@@ -203,5 +206,16 @@ public class Data {
         return maxElement * MAX_NUMBER_OF_DESTINATION;
     }
     
-    
+    public double calcMaxWaitingTime(){
+        double[] startTimeArray = new double[P];
+        for (int i = 0; i < this.P; i++){
+            startTimeArray[i] = this.POI[i].getStart();
+        }
+        Arrays.sort(startTimeArray);
+        double waitingTime = 0;
+        for (int i = P - 1; i >= P - K - 1; i--){
+            waitingTime += startTimeArray[i] - t_s[0];
+        }
+        return waitingTime;
+    }
 }
