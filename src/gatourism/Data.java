@@ -94,6 +94,7 @@ public class Data {
         data.w1 = 1;
         data.w2 = 1;
         data.w3 = 1;
+        data.w4=1;
         
         // read destination data
         String excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_P.xlsx";
