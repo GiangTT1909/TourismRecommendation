@@ -61,7 +61,7 @@ public class GA {
     public Solution generatePopulation(Data data) throws IOException {
         ArrayList<Solution> generation = new ArrayList<>();
         ArrayList<Integer> fullTrip = generateRandom(data.P);
-        Solution s = new Solution();
+        Solution s = new Solution(data);
         for (int i = 0; i < data.K; i++) {
             ArrayList<Integer> dayTrip = new ArrayList<>();
             double time = Double.max(data.t_s[i], data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
@@ -91,7 +91,7 @@ public class GA {
     }
 
     public Solution crossover(Solution parent1, Solution parent2,Data data) throws IOException {
-        Solution child = new Solution();
+        Solution child = new Solution(data);
         Set<Integer> set = new HashSet<Integer>();
         for (ArrayList<Integer> list : parent1.gene) {
             for (Integer i : list) {
@@ -137,7 +137,7 @@ public class GA {
         return  child;
 }
     public Solution mutation(Solution s,Data data) throws IOException{
-        Solution newS = new Solution();
+        Solution newS = new Solution(data);
         
         return generatePopulation(data);
     }

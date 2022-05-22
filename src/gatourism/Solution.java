@@ -16,10 +16,11 @@ import java.util.Collections;
  */
 public class Solution {
     
-    Data data = Data.getDatafromFile();
+    Data data;
     ArrayList<ArrayList<Integer>> gene;
     
-    public Solution() throws IOException {
+    public Solution(Data data) throws IOException {
+        this.data = data;
         gene = new ArrayList<>();
     }
     
@@ -35,10 +36,9 @@ public class Solution {
                 } else {
                     A[j][i] = A[j-1][i] + data.POI[poi].getDuration();
                 }
-                if ()
             }
         }
         
-        return false;
+        return isStartEndTimeValid;
     }
 }
