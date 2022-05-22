@@ -24,7 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Data {
     
-    public static double MAX_HAPPINESS = 886.4000000000004;
+    public static double MAX_HAPPINESS = 884.0000004;
     public static double MIN_HAPPINESS = 171.3;
 
     public static double MAX_NUMBER_OF_DESTINATION = 28;
@@ -96,7 +96,7 @@ public class Data {
         data.w3 = 1;
         
         // read destination data
-        String excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_P.xlsx";
+        String excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_P.xlsx";
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -113,18 +113,18 @@ public class Data {
         
         // read rating
         data.factor = new double[data.P][data.F];
-        excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_C.xlsx";
+        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_C.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
         for (int i = 0; i < data.P; i++) {
-            for (int j = 0; j < data.C; j++) {
+            for (int j = 0; j <= data.C; j++) {
                 data.tourist[i][j] = sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
             }
         }
         
         // read distance
-        excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_M-New.xlsx";
+        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_M-New.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
@@ -138,9 +138,10 @@ public class Data {
          // calc max values
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
         MAX_DISTANCE = data.calcMaxDistance();
-        
+        MAX_HAPPINESS = data.calcMaxHappiness();
         
         MIN_NUMBER_OF_DESTINATION = 0;
+        MIN_DISTANCE = 0;
         
         return data;
     }
@@ -177,6 +178,14 @@ public class Data {
     }
     
     public double calcMaxHappiness(){
-        return MAX_HAPPINESS;
+        double maxElement = Double.MIN_VALUE;
+        for (int i = 0; i < P; i++) {
+            if (D[C][i] > maxElement) {
+                maxElement = D[C][i];
+            }
+        }
+        return maxElement * MAX_NUMBER_OF_DESTINATION;
     }
+    
+    
 }
