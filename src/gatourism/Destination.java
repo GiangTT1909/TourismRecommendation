@@ -12,16 +12,16 @@ package gatourism;
 public class Destination {
     private int id;
     private String title;
-    private float start;
-    private float end;
-    private float duration;
-    private float cost;
+    private double start;
+    private double end;
+    private double duration;
+    private double cost;
 
-    public float getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
     
@@ -42,27 +42,27 @@ public class Destination {
         this.title = title;
     }
 
-    public float getStart() {
+    public double getStart() {
         return start;
     }
 
-    public void setStart(float start) {
+    public void setStart(double start) {
         this.start = start;
     }
 
-    public float getEnd() {
+    public double getEnd() {
         return end;
     }
 
-    public void setEnd(float end) {
+    public void setEnd(double end) {
         this.end = end;
     }
 
-    public float getDuration() {
+    public double getDuration() {
         return duration;
     }
 
-    public void setDuration(float duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
     
