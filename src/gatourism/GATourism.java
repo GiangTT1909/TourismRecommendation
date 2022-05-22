@@ -18,14 +18,15 @@ public class GATourism {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        try {
-            // TODO code application logic here
-            Data data = Data.getDatafromFile();
-            return;
-        } catch (IOException ex) {
-            Logger.getLogger(GATourism.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void main(String[] args) throws IOException {
+        Data data = Data.getDatafromFile();
+        GA ga = new GA();
+
+        Solution s = ga.generatePopulation(data);
+        Solution s1 = ga.generatePopulation(data);
+        Solution s2 = ga.crossover(s1, s1, data);
+        System.out.println(s2.gene);
+
     }
-    
+
 }

@@ -95,7 +95,7 @@ public class Data {
         data.w3 = 1;
         
         // read destination data
-        String excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_P.xlsx";
+        String excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_P.xlsx";
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -112,7 +112,7 @@ public class Data {
         
         // read rating
         data.factor = new double[data.P][data.F];
-        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_C.xlsx";
+        excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_C.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
@@ -123,7 +123,7 @@ public class Data {
         }
         
         // read distance
-        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_M-New.xlsx";
+        excelFilePath = "C:\\Users\\ACER\\Desktop\\Tourism\\Tourism\\src\\gatourism\\data_M-New.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
@@ -146,7 +146,7 @@ public class Data {
     
     public int calcMaxNumberOfDestination(){
         double[] costArray = new double[500];
-        for (int i = 0; i < this.POI.length; i++){
+        for (int i = 0; i < this.P; i++){
             costArray[i] = this.POI[i].getCost() ;
         }
         Arrays.sort(costArray);
