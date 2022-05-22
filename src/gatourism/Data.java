@@ -158,9 +158,10 @@ public class Data {
         for (int i = 0; i < costArray.length; i++){
             currentBudget += costArray[i];
             if (currentBudget >= totalBudget){
-                countCost = i;
+                
                 break;
             }
+            countCost = i;
         }
         int countTime = 0;
         double totalTimeBudget = Arrays.stream(this.T_max).sum();
@@ -173,9 +174,9 @@ public class Data {
         for (int i = 0; i < durationArray.length; i++){
             currentTimeBudget += durationArray[i];
             if (currentTimeBudget >= totalTimeBudget){
-                countTime = i;
                 break;
             }
+            countTime = i;
         }
         return Math.min(countCost, countTime);
     }
