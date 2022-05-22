@@ -86,4 +86,10 @@ public class Solution {
         return waiting_time;
     }
     
+    public double cal_fitness(){
+        double fitness =0;
+        
+        return fitness;
+    }
+    
 }
