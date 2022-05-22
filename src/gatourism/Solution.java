@@ -36,6 +36,8 @@ public class Solution {
                 } else {
                     A[j][i] = A[j-1][i] + data.POI[poi].getDuration();
                 }
+                if (A[j][i] >= data.POI[poi].getEnd() || A[j][i] - data.POI[poi].getDuration() <= data.POI[poi].getStart() )
+                    isStartEndTimeValid = false;
             }
         }
         
