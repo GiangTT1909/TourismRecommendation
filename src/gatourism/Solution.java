@@ -16,14 +16,29 @@ import java.util.Collections;
  */
 public class Solution {
     
-    Data data;
+    Data data = Data.getDatafromFile();
     ArrayList<ArrayList<Integer>> gene;
     
     public Solution() throws IOException {
-        this.data = Data.getDatafromFile();
         gene = new ArrayList<>();
-        
     }
     
-    
+    public boolean isValid(ArrayList<ArrayList<Integer>> gene){
+        boolean isStartEndTimeValid = true;
+        double[][] A = new double[500][data.K];
+        for (int i = 0; i< data.K; i++){
+            ArrayList<Integer> trip = gene.get(i);
+            for (int j = 0; j < trip.size(); j++){
+                int poi = trip.get(j);
+                if (j == 0){
+                    A[j][i] = data.t_s[i]+ data.POI[poi].getDuration();
+                } else {
+                    A[j][i] = A[j-1][i] + data.POI[poi].getDuration();
+                }
+                if ()
+            }
+        }
+        
+        return false;
+    }
 }

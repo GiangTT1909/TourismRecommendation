@@ -36,6 +36,7 @@ public class Data {
     public static double MAX_DISTANCE = 43191.16;
     public static double MIN_DISTANCE = 0;
     
+    
     int P; // Number destinations;
     Destination[] POI = new Destination[550]; // Destination
     int F; // Number of Factors
@@ -117,8 +118,8 @@ public class Data {
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
         for (int i = 0; i < data.P; i++) {
-            for (int j = 0; j <= data.C; j++) {
-                data.tourist[i][j] = sheet.getRow(i + 1).getCell(j+1).getNumericCellValue();
+            for (int j = 0; j < data.C; j++) {
+                data.tourist[i][j] = sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
             }
         }
         
@@ -146,7 +147,7 @@ public class Data {
     
     public int calcMaxNumberOfDestination(){
         double[] costArray = new double[500];
-        for (int i = 0; i < this.POI.length; i++){
+        for (int i = 0; i < this.P; i++){
             costArray[i] = this.POI[i].getCost() ;
         }
         Arrays.sort(costArray);
@@ -172,7 +173,7 @@ public class Data {
                 }
             }
         }
-        return maxElement * MAX_NUMBER_OF_DESTINATION;
+        return maxElement * (MAX_NUMBER_OF_DESTINATION - 1);
     }
     
     public double calcMaxHappiness(){
