@@ -28,7 +28,12 @@ public class GATourism {
         for (Solution result : results) {
             System.out.println(result.cal_fitness());
         }
-       
+        System.out.println(results.get(999).gene);
+                System.out.println(results.get(999).cal_distance_obj());
+        System.out.println(results.get(999).cal_hapiness_obj());
+        System.out.println(results.get(999).cal_number_of_destination_obj());
+        System.out.println(results.get(999).cal_waiting_time_obj());
+
     }
 
 }
