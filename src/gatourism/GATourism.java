@@ -6,6 +6,7 @@
 package gatourism;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +26,12 @@ public class GATourism {
         Solution s = ga.generatePopulation(data);
         Solution s1 = ga.generatePopulation(data);
         Solution s2 = ga.crossover(s1, s1, data);
-        System.out.println(s2.gene);
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        ArrayList<Integer> intlist = new ArrayList<>();
+        intlist.add(1);
+        intlist.add(2);
+        intlist.add(3);
+        intlist.get(0) = new Integer(3);
+        
     }
 
 }
