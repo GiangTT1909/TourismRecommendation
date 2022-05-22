@@ -147,22 +147,37 @@ public class Data {
     }
     
     public int calcMaxNumberOfDestination(){
-        double[] costArray = new double[500];
+        double[] costArray = new double[P];
         for (int i = 0; i < this.P; i++){
             costArray[i] = this.POI[i].getCost() ;
         }
         Arrays.sort(costArray);
         double totalBudget = Arrays.stream(this.C_max).sum();
-        int count = 0;
+        int countCost = 0;
         double currentBudget = 0;
         for (int i = 0; i < costArray.length; i++){
             currentBudget += costArray[i];
             if (currentBudget >= totalBudget){
-                count = i;
+                countCost = i;
                 break;
             }
         }
-        return count;
+        int countTime = 0;
+        double totalTimeBudget = Arrays.stream(this.T_max).sum();
+        double currentTimeBudget = 0;
+        double[] durationArray = new double[P];
+        for (int i = 0; i < this.P; i++){
+            durationArray[i] = this.POI[i].getDuration();
+        }
+        Arrays.sort(durationArray);
+        for (int i = 0; i < durationArray.length; i++){
+            currentTimeBudget += durationArray[i];
+            if (currentTimeBudget >= totalTimeBudget){
+                countTime = i;
+                break;
+            }
+        }
+        return Math.min(countCost, countTime);
     }
     
     public double calcMaxDistance(){
