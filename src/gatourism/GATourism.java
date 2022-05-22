@@ -26,7 +26,7 @@ public class GATourism {
         Solution s1 = ga.generatePopulation(data);
         Solution s2 = ga.crossover(s1, s1, data);
         System.out.println(s2.gene);
-        System.out.println(Data.MAX_NUMBER_OF_DESTINATION);
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
     }
 
 }

@@ -96,7 +96,8 @@ public class Data {
         data.w3 = 1;
         data.w4 = 1;
         // read destination data
-        String excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_P.xlsx";
+        String workingDirectory = System.getProperty("user.dir");
+        String excelFilePath = workingDirectory + "\\src\\gatourism\\data_P.xlsx";
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -113,7 +114,7 @@ public class Data {
         
         // read rating
         data.factor = new double[data.P][data.F];
-        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_C.xlsx";
+        excelFilePath = workingDirectory + "\\src\\gatourism\\data_C.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
@@ -124,7 +125,7 @@ public class Data {
         }
         
         // read distance
-        excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_M-New.xlsx";
+        excelFilePath = workingDirectory + "\\src\\gatourism\\data_M-New.xlsx";
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
