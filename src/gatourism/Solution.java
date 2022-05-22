@@ -57,7 +57,7 @@ public class Solution {
         double distance =0;
         for(int i =0;i<data.K;i++){
             for(int j=0;j<this.gene.get(i).size()-1;j++){
-                distance+= data.D[this.gene.get(i).get(j)][this.gene.get(i).get(j)];
+                distance+= data.D[this.gene.get(i).get(j)][this.gene.get(i).get(j+1)];
             }
         }
         return distance;
@@ -88,7 +88,11 @@ public class Solution {
     
     public double cal_fitness(){
         double fitness =0;
-        
+        fitness+= Math.pow((cal_distance_obj()-data.MIN_DISTANCE)/(data.MAX_DISTANCE-data.MIN_DISTANCE), 2)*data.w1;
+        fitness+=  Math.pow((data.MIN_WATING_TIME-cal_waiting_time_obj())/(data.MAX_WATING_TIME-data.MIN_WATING_TIME), 2)*data.w2;
+        fitness+= Math.pow((cal_hapiness_obj()-data.MAX_HAPPINESS)/(data.MAX_HAPPINESS-data.MIN_HAPPINESS), 2)*data.w3;
+        fitness+=  Math.pow((cal_number_of_destination_obj()-data.MAX_NUMBER_OF_DESTINATION)/(data.MAX_NUMBER_OF_DESTINATION-data.MIN_NUMBER_OF_DESTINATION), 2)*data.w4;
+        fitness = Math.sqrt(fitness);
         return fitness;
     }
     

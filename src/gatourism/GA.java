@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -90,7 +92,7 @@ public class GA {
 
     }
 
-    public Solution crossover(Solution parent1, Solution parent2,Data data) throws IOException {
+    public Solution crossover(Solution parent1, Solution parent2, Data data) throws IOException {
         Solution child = new Solution(data);
         Set<Integer> set = new HashSet<Integer>();
         for (ArrayList<Integer> list : parent1.gene) {
@@ -106,10 +108,9 @@ public class GA {
 
         }
         set = newShuffledSet(set);
-        
-       
+
         ArrayList<Integer> fullTrip = new ArrayList<>(set);
-      
+
         for (int i = 0; i < data.K; i++) {
             ArrayList<Integer> dayTrip = new ArrayList<>();
             double time = Double.max(data.t_s[i], data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
@@ -118,7 +119,7 @@ public class GA {
             int current = fullTrip.get(0);
             fullTrip.remove(0);
 
-            while (fullTrip.size()>0) {
+            while (fullTrip.size() > 0) {
                 double predict = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
                 if (Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
                         && cost + data.POI[fullTrip.get(0)].getCost() < data.C_max[i]) {
@@ -134,12 +135,66 @@ public class GA {
             }
             child.gene.add(dayTrip);
         }
-        return  child;
-}
-    public Solution mutation(Solution s,Data data) throws IOException{
+        return child;
+    }
+
+    public Solution mutation(Solution s, Data data) throws IOException {
         Solution newS = new Solution(data);
-        
+
         return generatePopulation(data);
+    }
+
+    public ArrayList<Solution> implementGA(Data data) throws IOException {
+        ArrayList<Solution> results = new ArrayList<>();
+        ArrayList<Solution> population = new ArrayList<>();
+        //Generation 
+        for (int i = 0; i < 1000; i++) {
+            population.add(generatePopulation(data));
+        }
+         Collections.sort(population, new Comparator<Solution>() {
+                @Override
+                public int compare(Solution o1, Solution o2) {
+
+                    return Double.compare(o1.cal_fitness(), o2.cal_fitness());
+                }
+            });
+        for (int j = 0; j < 500; j++) {
+            //Selection
+           
+            ArrayList<Solution> nextPopulation = new ArrayList<>();
+            for (int i = 0; i < 100; i++) {
+                nextPopulation.add(population.get(i));
+            }
+            //Crossover
+            for (int i = 0; i < 900; i++) {
+                Random rand = new Random();
+                int mom = rand.nextInt(1000);
+                int dad = rand.nextInt(1000);
+                while (mom == dad) {
+                    dad = rand.nextInt(1000);
+                }
+                nextPopulation.add(crossover(population.get(dad), population.get(mom), data));
+            }
+            //mutation
+            for (int i = 0; i < 100; i++) {
+                Random rand = new Random();
+                int choosen = rand.nextInt(900);
+                choosen+=100;
+                nextPopulation.set(i, mutation(nextPopulation.get(i), data));
+            }
+            Collections.sort(nextPopulation, new Comparator<Solution>() {
+                @Override
+                public int compare(Solution o1, Solution o2) {
+
+                    return Double.compare(o1.cal_fitness(), o2.cal_fitness());
+                }
+            });
+            results.add(nextPopulation.get(0));
+            population.clear();
+            population = new ArrayList<>(nextPopulation);
+        }
+
+        return results;
     }
 
     public static <T> Set<T> newShuffledSet(Collection<T> collection) {

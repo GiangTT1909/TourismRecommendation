@@ -6,6 +6,7 @@
 package gatourism;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,11 +23,12 @@ public class GATourism {
         Data data = Data.getDatafromFile();
         GA ga = new GA();
 
-        Solution s = ga.generatePopulation(data);
-        Solution s1 = ga.generatePopulation(data);
-        Solution s2 = ga.crossover(s1, s1, data);
-        System.out.println(s2.gene);
-        System.out.println(Data.MAX_NUMBER_OF_DESTINATION);
+        ArrayList<Solution> results = new ArrayList<>();
+        results = ga.implementGA(data);
+        for (Solution result : results) {
+            System.out.println(result.cal_fitness());
+        }
+       
     }
 
 }
