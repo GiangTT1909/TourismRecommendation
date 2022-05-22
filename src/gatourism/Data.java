@@ -94,7 +94,7 @@ public class Data {
         data.w1 = 1;
         data.w2 = 1;
         data.w3 = 1;
-        
+        data.w4 = 1;
         // read destination data
         String excelFilePath = "D:\\FPTU Materials\\Capstone\\GATourism\\src\\gatourism\\data_P.xlsx";
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
@@ -180,8 +180,8 @@ public class Data {
     public double calcMaxHappiness(){
         double maxElement = Double.MIN_VALUE;
         for (int i = 0; i < P; i++) {
-            if (D[C][i] > maxElement) {
-                maxElement = D[C][i];
+            if (tourist[C][i] > maxElement) {
+                maxElement = tourist[C][i];
             }
         }
         return maxElement * MAX_NUMBER_OF_DESTINATION;
