@@ -94,10 +94,14 @@ public class Data {
         data.w1 = 1;
         data.w2 = 1;
         data.w3 = 1;
-        data.w4 = 1;
+        data.w4=1;
+        
+
         // read destination data
+
         String workingDirectory = System.getProperty("user.dir");
         String excelFilePath = workingDirectory + "\\src\\gatourism\\data_P.xlsx";
+
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -105,6 +109,7 @@ public class Data {
         for (int i = 1; i <= data.P; i++) {
             Destination d = new Destination();
             d.setId(i);
+            d.setTitle(sheet.getRow(i).getCell(1).toString());
             d.setStart((float) sheet.getRow(i).getCell(2).getNumericCellValue());
             d.setEnd((float) sheet.getRow(i).getCell(3).getNumericCellValue());
             d.setCost((float) sheet.getRow(i).getCell(4).getNumericCellValue());
@@ -114,7 +119,9 @@ public class Data {
         
         // read rating
         data.factor = new double[data.P][data.F];
+
         excelFilePath = workingDirectory + "\\src\\gatourism\\data_C.xlsx";
+
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);
@@ -125,7 +132,9 @@ public class Data {
         }
         
         // read distance
+
         excelFilePath = workingDirectory + "\\src\\gatourism\\data_M-New.xlsx";
+
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
         sheet = (Sheet) workbook.getSheetAt(0);

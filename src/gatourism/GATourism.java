@@ -23,15 +23,26 @@ public class GATourism {
         Data data = Data.getDatafromFile();
         GA ga = new GA();
 
-        Solution s = ga.generatePopulation(data);
-        Solution s1 = ga.generatePopulation(data);
-        Solution s2 = ga.crossover(s1, s1, data);
-        ArrayList<Integer> intlist = new ArrayList<>();
-        intlist.add(1);
-        intlist.add(2);
-        intlist.add(3);
-        intlist.get(0) = new Integer(3);
+        ArrayList<Solution> result = ga.implementGA(data);
+        for(Solution s: result){
+            System.out.println(s.cal_fitness());
+        }
+
         
+        
+//        ACO aco = new ACO(data);
+//        ArrayList<Solution> result = aco.generateAntColony(data);
+//        for (Solution s: result){
+//            System.out.println(s.cal_fitness());
+//        
+//            System.out.println(s.gene);
+//            System.out.println(s.cal_hapiness_obj());
+//            System.out.println(s.cal_distance_obj());
+//
+//            System.out.println(s.cal_number_of_destination_obj());
+//            System.out.println(s.cal_waiting_time_obj());
+//        }
+//        }
     }
 
 }
