@@ -148,7 +148,7 @@ public class GA {
         ArrayList<Solution> results = new ArrayList<>();
         ArrayList<Solution> population = new ArrayList<>();
         //Generation 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 3000; i++) {
             population.add(generatePopulation(data));
         }
          Collections.sort(population, new Comparator<Solution>() {
@@ -158,29 +158,37 @@ public class GA {
                     return Double.compare(o1.cal_fitness(), o2.cal_fitness());
                 }
             });
-        for (int j = 0; j < 500; j++) {
+        for (int j = 0; j < 1000; j++) {
             //Selection
            
             ArrayList<Solution> nextPopulation = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 300; i++) {
                 nextPopulation.add(population.get(i));
             }
             //Crossover
-            for (int i = 0; i < 900; i++) {
+            for (int i = 0; i < 2700; i++) {
                 Random rand = new Random();
-                int mom = rand.nextInt(1000);
-                int dad = rand.nextInt(1000);
+                int mom = rand.nextInt(3000);
+                int dad = rand.nextInt(3000);
                 while (mom == dad) {
-                    dad = rand.nextInt(1000);
+                    dad = rand.nextInt(3000);
                 }
                 nextPopulation.add(crossover(population.get(dad), population.get(mom), data));
             }
+            Collections.sort(nextPopulation, new Comparator<Solution>() {
+                @Override
+                public int compare(Solution o1, Solution o2) {
+
+                    return Double.compare(o1.cal_fitness(), o2.cal_fitness());
+                }
+            });
+            
             //mutation
             for (int i = 0; i < 100; i++) {
                 Random rand = new Random();
                 int choosen = rand.nextInt(900);
                 choosen+=100;
-                nextPopulation.set(i, mutation(nextPopulation.get(i), data));
+                nextPopulation.set(choosen, mutation(nextPopulation.get(choosen), data));
             }
             Collections.sort(nextPopulation, new Comparator<Solution>() {
                 @Override

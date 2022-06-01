@@ -66,7 +66,7 @@ public class Data {
     
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
-        data.P = 190;
+        data.P = 189;
         data.K = 5;
         data.F = 10;
         data.C = 10;
@@ -94,7 +94,7 @@ public class Data {
         data.w1 = 1;
         data.w2 = 1;
         data.w3 = 1;
-        data.w4=1;
+        data.w4 = 1;
         
 
         // read destination data

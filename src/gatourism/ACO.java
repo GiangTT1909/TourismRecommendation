@@ -5,10 +5,15 @@
  */
 package gatourism;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -33,7 +38,7 @@ public class ACO {
                 if (costMatrix[i][j] == 0) {
                     pheromoneMatrix[i][j] = 0;
                 } else {
-                    pheromoneMatrix[i][j] = 1 / costMatrix[i][j];
+                    pheromoneMatrix[i][j] = 2 / costMatrix[i][j];
                 }
             }
         }
@@ -43,10 +48,62 @@ public class ACO {
         ArrayList<Solution> arr = new ArrayList<>();
         Solution s = new Solution(data);
         ACO Algorithm = new ACO(data);
-        for (int l = 0; l < 10; l++) {
+        for (int l = 0; l < 200; l++) {
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
-                Solution ant = generatePopulation(data);
+            for (int i = 0; i < 2000; i++) {
+                Solution ant = new Solution(data);
+                ArrayList<Integer> choosen = new ArrayList<>();
+                for (int j = 0; j < data.K; j++) {
+                    Random rand = new Random(System.currentTimeMillis());
+                    int startLocation = rand.nextInt(data.P);
+                    double budget = data.POI[startLocation].getCost();
+                    double currentTime = 27000;
+                    int currentLocation = startLocation;
+                    ArrayList<Integer> oneTrip = new ArrayList<Integer>();
+                    while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
+                        ArrayList<Integer> canVisited = new ArrayList<Integer>();
+                        for (int k = 0; k < data.P; k++) {
+                            double timePrediction=0;
+                            if(currentLocation==startLocation){
+                                timePrediction = currentTime + data.D[startLocation][k]*90 + data.POI[k].getDuration() + data.D[k][startLocation]*90;
+                            }
+                            
+                            else
+                            {
+                                timePrediction = currentTime + data.D[currentLocation][k]*90 + data.POI[k].getDuration() + data.D[k][startLocation]*90;
+                            }
+                            if (timePrediction <= data.T_max[j] && choosen.indexOf(k) < 0) {
+                                if (currentLocation == 0) {
+                                    if (budget + data.S * data.D[startLocation][k] + data.POI[k].getCost() < data.C_max[j]) {
+                                        canVisited.add(k);
+                                    }
+                                } else {
+                                    if (budget + data.S * data.D[currentLocation][k] + data.POI[k].getCost() < data.C_max[j]) {
+                                        canVisited.add(k);
+                                    }
+                                }
+
+                            }
+                        }
+                        if (canVisited.size() == 0) {
+                            break;
+                        }
+
+                        DistributedRandomNumberGenerator drng = new DistributedRandomNumberGenerator();
+                        for (Integer integer : canVisited) {
+                            drng.addNumber(integer, Algorithm.pheromoneMatrix[currentLocation][integer]);
+                        }
+                        int random = drng.getDistributedRandomNumber();
+                        oneTrip.add(random);
+                        budget += data.S * data.D[currentLocation][random] + data.POI[random].getCost();
+                        currentTime += data.D[currentLocation][random]*90 + data.POI[random].getDuration();
+                        currentLocation = random;
+                        choosen.add(random);
+
+                    }
+                    ant.gene.add(oneTrip);
+
+                }
 
                 ants.add(ant);
             }
@@ -59,32 +116,33 @@ public class ACO {
                 index++;
                 double pheromone = 0;
 //                for (int j = 0; j < data.K; j++) {
-//                    for (int k = 0; k <= ant.gene.get(j).size(); k++) {
-//                        if (k == 0) {
-//                            pheromone += Algorithm.pheromoneMatrix[0][ant.gene.get(j).get(k) + 1];
-//                        } else if (k == ant.gene.get(j).size()) {
-//                            pheromone += Algorithm.pheromoneMatrix[ant.gene.get(j).get(k - 1) + 1][0];
-//                        } else {
-//                            pheromone += Algorithm.pheromoneMatrix[ant.gene.get(j).get(k - 1) + 1][ant.gene.get(j).get(k) + 1];
-//                        }
+//                    for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
+//                        pheromone += Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
+//                        
 //                    }
 //                }
+              
                 for (int j = 0; j < data.K; j++) {
-                    for (int k = 0; k <= ant.gene.get(j).size(); k++) {
-                        if (k == 0) {
-                            Algorithm.pheromoneMatrix[0][ant.gene.get(j).get(k)] += 1/Algorithm.costMatrix[0][ant.gene.get(j).get(k)];
-                        } else if (k == ant.gene.get(j).size()) {
-                            Algorithm.pheromoneMatrix[ant.gene.get(j).get(k - 1)][0] += 1/Algorithm.costMatrix[ant.gene.get(j).get(k - 1)][0];
-                        } else {
-                            Algorithm.pheromoneMatrix[ant.gene.get(j).get(k - 1)][ant.gene.get(j).get(k)] +=1/Algorithm.costMatrix[ant.gene.get(j).get(k - 1)][ant.gene.get(j).get(k)] ;
-                        }
+                    for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
+                        Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)]
+                                += 2/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
                     }
                 }
+                
             }
             Collections.sort(ants, (o1, o2) -> {
                 return Double.compare(o1.cal_fitness(), o2.cal_fitness());
             });
-            arr.add(ants.get(0));
+            if (arr.size() > 0) {
+                if (ants.get(0).cal_fitness() >= arr.get(arr.size() - 1).cal_fitness()) {
+                    arr.add(arr.get(arr.size() - 1));
+                } else {
+                    arr.add(ants.get(0));
+                }
+            } else if (arr.size()==0){
+                arr.add(ants.get(0));
+            }
+            
         }
 
         return arr;
@@ -151,73 +209,53 @@ public class ACO {
 //        return arr;
 //    }
     
-    static int getNum(ArrayList<Integer> v) {
-        // Size of the vector
-        int n = v.size();
+    public static void writeSolution(ArrayList<Solution> solutions) throws IOException{
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Sheet1");
+        
+        Row row = sheet.createRow(0);
+        Cell cell = row.createCell(0);
+        cell.setCellValue("Fitness");
+        
+        cell = row.createCell(1);
+        cell.setCellValue("Trip");
+        
+        cell = row.createCell(2);
+        cell.setCellValue("Happiness");
+        
+        cell = row.createCell(3);
+        cell.setCellValue("Distance");
+        
+        cell = row.createCell(4);
+        cell.setCellValue("No. dest");
+        
+        cell = row.createCell(5);
+        cell.setCellValue("Waiting time");
+        
+        int rowCount = 0;
+        for (Solution s: solutions){
+            row = sheet.createRow(++rowCount);
+            cell = row.createCell(0);
+            cell.setCellValue(s.cal_fitness());
 
-        // Make sure the number is within
-        // the index range
-        int index = (int) (Math.random() * n);
+            cell = row.createCell(1);
+            cell.setCellValue(s.gene.toString());
 
-        // Get random number from the vector
-        int num = v.get(index);
+            cell = row.createCell(2);
+            cell.setCellValue(s.cal_hapiness_obj());
 
-        // Remove the number from the vector
-        v.set(index, v.get(n - 1));
-        v.remove(n - 1);
+            cell = row.createCell(3);
+            cell.setCellValue(s.cal_distance_obj());
 
-        // Return the removed number
-        return num;
-    }
+            cell = row.createCell(4);
+            cell.setCellValue(s.cal_number_of_destination_obj());
 
-    // Function to generate n
-    // non-repeating random numbers
-    static ArrayList<Integer> generateRandom(int n) {
-        ArrayList<Integer> v = new ArrayList<>(n);
-        ArrayList<Integer> vc = new ArrayList<>(n);
-        // Fill the vector with the values
-        // 1, 2, 3, ..., n
-        for (int i = 0; i < n; i++) {
-            v.add(i);
+            cell = row.createCell(5);
+            cell.setCellValue(s.cal_waiting_time_obj());
+            
         }
-        for (int i = 0; i < n; i++) {
-            vc.add(getNum(v));
-        }
-        // While vector has elements
-        // get a random number from the vector and print it
-        return vc;
-    }
-
-    // Driver code
-    public Solution generatePopulation(Data data) throws IOException {
-        ArrayList<Solution> generation = new ArrayList<>();
-        ArrayList<Integer> fullTrip = generateRandom(data.P);
-        Solution s = new Solution(data);
-        for (int i = 0; i < data.K; i++) {
-            ArrayList<Integer> dayTrip = new ArrayList<>();
-            double time = Double.max(data.t_s[i], data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-            double cost = data.POI[fullTrip.get(0)].getCost();
-            dayTrip.add(fullTrip.get(0));
-            int current = fullTrip.get(0);
-            fullTrip.remove(0);
-
-            while (true) {
-                double predict = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-                if (Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
-                        && cost + data.POI[fullTrip.get(0)].getCost() < data.C_max[i]) {
-                    time = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-                    cost += data.POI[fullTrip.get(0)].getCost();
-                    current = fullTrip.get(0);
-                    dayTrip.add(fullTrip.get(0));
-                    fullTrip.remove(0);
-                    continue;
-                } else {
-                    break;
-                }
-            }
-            s.gene.add(dayTrip);
-        }
-        return s;
-
+        try (FileOutputStream outputStream = new FileOutputStream("Result.xlsx")) {
+            workbook.write(outputStream);
+        }    
     }
 }
