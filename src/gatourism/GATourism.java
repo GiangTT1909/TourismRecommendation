@@ -28,7 +28,6 @@ public class GATourism {
 //        for(Solution s: result){
 //            System.out.println(s.cal_fitness());
 //        }
-
         
         ACO aco = new ACO(data);
         ArrayList<Solution> result = aco.generateAntColony(data);
@@ -44,6 +43,7 @@ public class GATourism {
 //            System.out.println(s.cal_waiting_time_obj());
 //        }
 //        
+
     }
 
 }
