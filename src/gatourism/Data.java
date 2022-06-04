@@ -60,13 +60,16 @@ public class Data {
     double w3;
     double w4;
     
+    double d_max = 53.85;
+    double[] D_imagine = new double[550]; //distance between imagine start and every destination
+    
     public Data() {
 
     }
     
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
-        data.P = 189;
+        data.P = 190;
         data.K = 5;
         data.F = 10;
         data.C = 10;
@@ -145,6 +148,14 @@ public class Data {
             }
         }
         
+        for (int i = 0; i < data.P; i++){
+            double sum = 0;
+            for (int j = 0; j < data.P; j++){
+                sum += data.D[i][j];
+            }
+            data.D_imagine[i] = sum/data.P;
+        }
+        
          // calc max values
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
         MAX_DISTANCE = data.calcMaxDistance();
@@ -191,7 +202,7 @@ public class Data {
             }
             countTime = i;
         }
-        return Math.min(countCost, countTime);
+        return Math.min(countCost, countTime) - 1;
     }
     
     public double calcMaxDistance(){

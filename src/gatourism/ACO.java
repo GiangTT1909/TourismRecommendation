@@ -30,7 +30,7 @@ public class ACO {
         for (int i = 0; i < data.P; i++) {
             for (int j = 0; j < data.P; j++) {
                 if (i != j) {
-                    costMatrix[i][j] = data.D[i][j];
+                    costMatrix[i][j] = data.D[i][j]/data.d_max + (5 - data.tourist[j][10])/5;
                 }
                 else{
                     costMatrix[i][j]=0;
@@ -38,7 +38,7 @@ public class ACO {
                 if (costMatrix[i][j] == 0) {
                     pheromoneMatrix[i][j] = 0;
                 } else {
-                    pheromoneMatrix[i][j] = 2 / costMatrix[i][j];
+                    pheromoneMatrix[i][j] = 1 / costMatrix[i][j];
                 }
             }
         }
@@ -55,7 +55,7 @@ public class ACO {
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
                     Random rand = new Random(System.currentTimeMillis());
-                    int startLocation = rand.nextInt(data.P);
+                    int startLocation = 0;
                     double budget = data.POI[startLocation].getCost();
                     double currentTime = 27000;
                     int currentLocation = startLocation;
@@ -65,16 +65,16 @@ public class ACO {
                         for (int k = 0; k < data.P; k++) {
                             double timePrediction=0;
                             if(currentLocation==startLocation){
-                                timePrediction = currentTime + data.D[startLocation][k]*90 + data.POI[k].getDuration() + data.D[k][startLocation]*90;
+                                timePrediction = currentTime + data.POI[k].getDuration();
                             }
                             
                             else
                             {
-                                timePrediction = currentTime + data.D[currentLocation][k]*90 + data.POI[k].getDuration() + data.D[k][startLocation]*90;
+                                timePrediction = currentTime + data.POI[k].getDuration() + data.D[k][currentLocation]*90;
                             }
                             if (timePrediction <= data.T_max[j] && choosen.indexOf(k) < 0) {
-                                if (currentLocation == 0) {
-                                    if (budget + data.S * data.D[startLocation][k] + data.POI[k].getCost() < data.C_max[j]) {
+                                if (currentLocation == startLocation) {
+                                    if (budget + data.POI[k].getCost() < data.C_max[j]) {
                                         canVisited.add(k);
                                     }
                                 } else {
@@ -95,6 +95,10 @@ public class ACO {
                         }
                         int random = drng.getDistributedRandomNumber();
                         oneTrip.add(random);
+                        if (currentLocation == startLocation) {
+                            budget += data.POI[random].getCost();
+                            currentTime += data.POI[random].getDuration();
+                        }
                         budget += data.S * data.D[currentLocation][random] + data.POI[random].getCost();
                         currentTime += data.D[currentLocation][random]*90 + data.POI[random].getDuration();
                         currentLocation = random;
@@ -125,7 +129,7 @@ public class ACO {
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
                         Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)]
-                                += 2/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
+                                += 1/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
                     }
                 }
                 
@@ -133,15 +137,15 @@ public class ACO {
             Collections.sort(ants, (o1, o2) -> {
                 return Double.compare(o1.cal_fitness(), o2.cal_fitness());
             });
-            if (arr.size() > 0) {
-                if (ants.get(0).cal_fitness() >= arr.get(arr.size() - 1).cal_fitness()) {
-                    arr.add(arr.get(arr.size() - 1));
-                } else {
-                    arr.add(ants.get(0));
-                }
-            } else if (arr.size()==0){
+//            if (arr.size() > 0) {
+//                if (ants.get(0).cal_fitness() >= arr.get(arr.size() - 1).cal_fitness()) {
+//                    arr.add(arr.get(arr.size() - 1));
+//                } else {
+//                    arr.add(ants.get(0));
+//                }
+//            } else if (arr.size()==0){
                 arr.add(ants.get(0));
-            }
+//            }
             
         }
 
@@ -211,7 +215,7 @@ public class ACO {
     
     public static void writeSolution(ArrayList<Solution> solutions) throws IOException{
         XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Sheet1");
+        XSSFSheet sheet = workbook.createSheet("Add normal");
         
         Row row = sheet.createRow(0);
         Cell cell = row.createCell(0);

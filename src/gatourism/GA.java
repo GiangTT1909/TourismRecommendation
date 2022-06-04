@@ -184,7 +184,7 @@ public class GA {
             });
             
             //mutation
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
                 Random rand = new Random();
                 int choosen = rand.nextInt(900);
                 choosen+=100;
