@@ -45,12 +45,12 @@ public class ACO {
     }
 
     public ArrayList<Solution> generateAntColony(Data data) throws IOException {
-        ArrayList<Solution> arr = new ArrayList<>();
+        ArrayList<Solution> arr = new ArrayList<Solution>();
         Solution s = new Solution(data);
         ACO Algorithm = new ACO(data);
-        for (int l = 0; l < 200; l++) {
+        for (int l = 0; l < 500; l++) {
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 2000; i++) {
+            for (int i = 0; i < 3000; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
@@ -62,9 +62,9 @@ public class ACO {
                     ArrayList<Integer> oneTrip = new ArrayList<Integer>();
                     while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
                         ArrayList<Integer> canVisited = new ArrayList<Integer>();
-                        for (int k = 0; k < data.P; k++) {
+                        for (int k = 1; k < data.P; k++) {
                             double timePrediction=0;
-                            if(currentLocation==startLocation){
+                            if(currentLocation==0){
                                 timePrediction = currentTime + data.POI[k].getDuration();
                             }
                             
@@ -73,7 +73,7 @@ public class ACO {
                                 timePrediction = currentTime + data.POI[k].getDuration() + data.D[k][currentLocation]*90;
                             }
                             if (timePrediction <= data.T_max[j] && choosen.indexOf(k) < 0) {
-                                if (currentLocation == startLocation) {
+                                if (currentLocation == 0) {
                                     if (budget + data.POI[k].getCost() < data.C_max[j]) {
                                         canVisited.add(k);
                                     }
@@ -95,7 +95,7 @@ public class ACO {
                         }
                         int random = drng.getDistributedRandomNumber();
                         oneTrip.add(random);
-                        if (currentLocation == startLocation) {
+                        if (currentLocation == 0) {
                             budget += data.POI[random].getCost();
                             currentTime += data.POI[random].getDuration();
                         }
@@ -119,17 +119,19 @@ public class ACO {
                 if(index>20) break;
                 index++;
                 double pheromone = 0;
-//                for (int j = 0; j < data.K; j++) {
-//                    for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
-//                        pheromone += Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
-//                        
-//                    }
-//                }
+                for (int j = 0; j < data.K; j++) {
+                    for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
+                        pheromone += Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
+                        
+                    }
+                }
               
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
                         Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)]
-                                += 1/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
+                                += 2*pheromone;
+                        
+//1/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
                     }
                 }
                 

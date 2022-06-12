@@ -103,7 +103,7 @@ public class Data {
         // read destination data
 
         String workingDirectory = System.getProperty("user.dir");
-        String excelFilePath = workingDirectory + "\\src\\gatourism\\data_P.xlsx";
+        String excelFilePath = workingDirectory + "//src//gatourism//data_P.xlsx";
 
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
@@ -123,7 +123,7 @@ public class Data {
         // read rating
         data.factor = new double[data.P][data.F];
 
-        excelFilePath = workingDirectory + "\\src\\gatourism\\data_C.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_C.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
@@ -136,7 +136,7 @@ public class Data {
         
         // read distance
 
-        excelFilePath = workingDirectory + "\\src\\gatourism\\data_M-New.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_M-New.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
@@ -220,8 +220,8 @@ public class Data {
     public double calcMaxHappiness(){
         double maxElement = Double.MIN_VALUE;
         for (int i = 0; i < P; i++) {
-            if (tourist[C][i] > maxElement) {
-                maxElement = tourist[C][i];
+            if (tourist[i][10] > maxElement) {
+                maxElement = tourist[i][10];
             }
         }
         return maxElement * MAX_NUMBER_OF_DESTINATION;
