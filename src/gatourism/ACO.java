@@ -31,7 +31,7 @@ public class ACO {
         for (int i = 0; i < data.P; i++) {
             for (int j = 0; j < data.P; j++) {
                 if (i != j) {
-                    costMatrix[i][j] = data.D[i][j] / data.d_max + (5 - data.tourist[j][10]) / 5;
+                    costMatrix[i][j] = data.D[i][j]/data.d_max + (5 - data.tourist[j][10]) / 5;
                 } else {
                     costMatrix[i][j] = 0;
                 }
@@ -46,25 +46,23 @@ public class ACO {
     }
 
     public ArrayList<Solution> generateAntColony(Data data) throws IOException {
-        ArrayList<Solution> arr = new ArrayList<Solution>();
-        Solution s = new Solution(data);
+        ArrayList<Solution> arr = new ArrayList<>();
         ACO Algorithm = new ACO(data);
-        for (int l = 0; l < 500; l++) {
+        for (int l = 0; l < 2000; l++) {
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 3000; i++) {
+            for (int i = 0; i < 500; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
-                    Random rand = new Random(System.currentTimeMillis());
                     int startLocation = 0;
                     double budget = data.POI[startLocation].getCost();
                     double currentTime = 27000;
                     int currentLocation = startLocation;
-                    ArrayList<Integer> oneTrip = new ArrayList<Integer>();
+                    ArrayList<Integer> oneTrip = new ArrayList<>();
                     while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
-                        ArrayList<Integer> canVisited = new ArrayList<Integer>();
+                        ArrayList<Integer> canVisited = new ArrayList<>();
                         for (int k = 1; k < data.P; k++) {
-                            double timePrediction = 0;
+                            double timePrediction ;
                             if (currentLocation == 0) {
                                 timePrediction = currentTime + data.POI[k].getDuration();
                             } else {
@@ -83,7 +81,7 @@ public class ACO {
 
                             }
                         }
-                        if (canVisited.size() == 0) {
+                        if (canVisited.isEmpty()) {
                             break;
                         }
 
@@ -117,7 +115,7 @@ public class ACO {
                 if (index > 20) {
                     break;
                 }
-                //index++;
+                index++;
                 double cost = 0;
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
@@ -129,7 +127,7 @@ public class ACO {
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
                         Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)]
-                                = 1 /cost+ 0.7*Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
+                                += 1 /cost;//+ 0.4*Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
                     }
                 }
 
@@ -137,15 +135,15 @@ public class ACO {
             Collections.sort(ants, (o1, o2) -> {
                 return Double.compare(o1.cal_fitness(), o2.cal_fitness());
             });
-//            if (arr.size() > 0) {
-//                if (ants.get(0).cal_fitness() >= arr.get(arr.size() - 1).cal_fitness()) {
-//                    arr.add(arr.get(arr.size() - 1));
-//                } else {
-//                    arr.add(ants.get(0));
-//                }
-//            } else if (arr.size()==0){
+            if (!arr.isEmpty()) {
+                if (ants.get(0).cal_fitness() >= arr.get(arr.size() - 1).cal_fitness()) {
+                    arr.add(arr.get(arr.size() - 1));
+                } else {
+                    arr.add(ants.get(0));
+                }
+            } else if (arr.isEmpty()){
             arr.add(ants.get(0));
-//            }
+            }
 
         }
 
@@ -261,5 +259,5 @@ public class ACO {
         try ( FileOutputStream outputStream = new FileOutputStream("Result.xlsx")) {
             workbook.write(outputStream);
         }
-    }
+    }   
 }
