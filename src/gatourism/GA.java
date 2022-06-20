@@ -5,6 +5,7 @@
  */
 package gatourism;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -209,6 +214,55 @@ public class GA {
         List<T> shuffleMe = new ArrayList<T>(collection);
         Collections.shuffle(shuffleMe);
         return new HashSet<T>(shuffleMe);
+    }
+    public static void writeSolution(ArrayList<Solution> solutions) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Add normal");
+
+        Row row = sheet.createRow(0);
+        Cell cell = row.createCell(0);
+        cell.setCellValue("Fitness");
+
+        cell = row.createCell(1);
+        cell.setCellValue("Trip");
+
+        cell = row.createCell(2);
+        cell.setCellValue("Happiness");
+
+        cell = row.createCell(3);
+        cell.setCellValue("Distance");
+
+        cell = row.createCell(4);
+        cell.setCellValue("No. dest");
+
+        cell = row.createCell(5);
+        cell.setCellValue("Waiting time");
+
+        int rowCount = 0;
+        for (Solution s : solutions) {
+            row = sheet.createRow(++rowCount);
+            cell = row.createCell(0);
+            cell.setCellValue(s.cal_fitness());
+
+            cell = row.createCell(1);
+            cell.setCellValue(s.gene.toString());
+
+            cell = row.createCell(2);
+            cell.setCellValue(s.cal_hapiness_obj());
+
+            cell = row.createCell(3);
+            cell.setCellValue(s.cal_distance_obj());
+
+            cell = row.createCell(4);
+            cell.setCellValue(s.cal_number_of_destination_obj());
+
+            cell = row.createCell(5);
+            cell.setCellValue(s.cal_waiting_time_obj());
+
+        }
+        try ( FileOutputStream outputStream = new FileOutputStream("Result.xlsx")) {
+            workbook.write(outputStream);
+        }
     }
 
 }
