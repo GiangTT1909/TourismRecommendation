@@ -23,24 +23,31 @@ public class ACO {
 
     public double[][] costMatrix;
     public double[][] pheromoneMatrix;
+    public double[][] temporaryMatrix;
     public int hotel;
 
     public ACO(Data data) {
         costMatrix = new double[data.P][data.P];
         pheromoneMatrix = new double[data.P][data.P];
+        temporaryMatrix = new double[data.P][data.P];
+
         for (int i = 0; i < data.P; i++) {
             for (int j = 0; j < data.P; j++) {
                 if (i != j) {
-                    costMatrix[i][j] = data.D[i][j]/data.d_max + (5 - data.tourist[j][10]) / 5;
+                    costMatrix[i][j] = data.D[i][j] / data.d_max + (5 - data.tourist[j][10]) / 5;
                 } else {
                     costMatrix[i][j] = 0;
                 }
                 if (costMatrix[i][j] == 0) {
                     pheromoneMatrix[i][j] = 0;
+                    temporaryMatrix[i][j] = 0;
                 } else {
                     pheromoneMatrix[i][j] = 1;
+                    temporaryMatrix[i][j] = 1;
+
 /// costMatrix[i][j];
                 }
+
             }
         }
     }
@@ -48,9 +55,9 @@ public class ACO {
     public ArrayList<Solution> generateAntColony(Data data) throws IOException {
         ArrayList<Solution> arr = new ArrayList<>();
         ACO Algorithm = new ACO(data);
-        for (int l = 0; l < 2000; l++) {
+        for (int l = 0; l < 300; l++) {
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 3000; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
@@ -62,7 +69,7 @@ public class ACO {
                     while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
                         ArrayList<Integer> canVisited = new ArrayList<>();
                         for (int k = 1; k < data.P; k++) {
-                            double timePrediction ;
+                            double timePrediction;
                             if (currentLocation == 0) {
                                 timePrediction = currentTime + data.POI[k].getDuration();
                             } else {
@@ -87,7 +94,7 @@ public class ACO {
 
                         DistributedRandomNumberGenerator drng = new DistributedRandomNumberGenerator();
                         for (Integer integer : canVisited) {
-                            drng.addNumber(integer, Algorithm.pheromoneMatrix[currentLocation][integer]*1/Algorithm.costMatrix[currentLocation][integer]);
+                            drng.addNumber(integer, Algorithm.pheromoneMatrix[currentLocation][integer] * 1 / Algorithm.costMatrix[currentLocation][integer]);
                         }
                         int random = drng.getDistributedRandomNumber();
                         oneTrip.add(random);
@@ -115,7 +122,7 @@ public class ACO {
                 if (index > 20) {
                     break;
                 }
-                index++;
+                //index++;
                 double cost = 0;
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
@@ -126,11 +133,16 @@ public class ACO {
 
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
-                        Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)]
+                        Algorithm.temporaryMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)]
                                 += 1 /cost;//+ 0.4*Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k + 1)];
                     }
                 }
-
+            }
+            for(int i=0;i<data.P;i++){
+                for(int j=0;j<data.P;j++){
+                    Algorithm.pheromoneMatrix[i][j]=0.7 * Algorithm.pheromoneMatrix[i][j]+ Algorithm.temporaryMatrix[i][j];
+                    Algorithm.temporaryMatrix[i][j]=0;
+                }
             }
             Collections.sort(ants, (o1, o2) -> {
                 return Double.compare(o1.cal_fitness(), o2.cal_fitness());
@@ -141,8 +153,8 @@ public class ACO {
                 } else {
                     arr.add(ants.get(0));
                 }
-            } else if (arr.isEmpty()){
-            arr.add(ants.get(0));
+            } else if (arr.isEmpty()) {
+                arr.add(ants.get(0));
             }
 
         }
@@ -259,5 +271,5 @@ public class ACO {
         try ( FileOutputStream outputStream = new FileOutputStream("Result.xlsx")) {
             workbook.write(outputStream);
         }
-    }   
+    }
 }
