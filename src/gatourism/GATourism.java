@@ -22,19 +22,19 @@ public class GATourism {
      */
     public static void main(String[] args) throws IOException {
         Data data = Data.getDatafromFile();
-//        GA ga = new GA();
-//
-//        ArrayList<Solution> result = ga.implementGA(data);
-//        for(Solution s: result){
-//            System.out.println(s.cal_fitness());
-//        }
+        GA ga = new GA();
+
+        ArrayList<Solution> result = ga.implementGA(data);
+        for(Solution s: result){
+            System.out.println(s.cal_fitness());
+        }
         
        
-        ACO aco = new ACO(data);
-        ArrayList<Solution> result = aco.generateAntColony(data);
+//        ACO aco = new ACO(data);
+//        ArrayList<Solution> result = aco.generateAntColony(data);
         ACO.writeSolution(result);
-        for (Solution s: result){
-            System.out.println(s.cal_fitness());
+//        for (Solution s: result){
+//            System.out.println(s.cal_fitness());
 //            
 //            System.out.println(s.gene);
 //            System.out.println(s.cal_hapiness_obj());
@@ -47,4 +47,4 @@ public class GATourism {
 
     }
 
-}
+//}

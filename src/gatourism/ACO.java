@@ -48,7 +48,7 @@ public class ACO {
         ArrayList<Solution> arr = new ArrayList<>();
         Solution s = new Solution(data);
         ACO Algorithm = new ACO(data);
-        for (int l = 0; l < 200; l++) {
+        for (int l = 0; l < 2000; l++) {
             ArrayList<Solution> ants = new ArrayList<>();
             for (int i = 0; i < 2000; i++) {
                 Solution ant = new Solution(data);
@@ -62,7 +62,7 @@ public class ACO {
                     ArrayList<Integer> oneTrip = new ArrayList<Integer>();
                     while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
                         ArrayList<Integer> canVisited = new ArrayList<Integer>();
-                        for (int k = 0; k < data.P; k++) {
+                        for (int k = 1; k < data.P; k++) {
                             double timePrediction=0;
                             if(currentLocation==startLocation){
                                 timePrediction = currentTime + data.POI[k].getDuration();
@@ -129,7 +129,7 @@ public class ACO {
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
                         Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)]
-                                += 1/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
+                                += 10/ Algorithm.pheromoneMatrix[ant.gene.get(j).get(k)][ant.gene.get(j).get(k+1)];                       
                     }
                 }
                 
