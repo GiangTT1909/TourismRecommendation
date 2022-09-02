@@ -55,6 +55,9 @@ public class Data {
     double[] z_e = new double[550]; // end of trip
     double[] t_s = new double[550]; // start of service each trip
     double[] t_e = new double[550]; // end of service each trip
+    int[] user_preference;
+    int number_of_tags;
+    int[][] POI_tags;
     double w1;
     double w2;
     double w3;
@@ -69,16 +72,18 @@ public class Data {
     
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
+        data.number_of_tags = 5;
+        data.user_preference =new int[]{0,0,1,1,0};
         data.P = 190;
         data.K = 5;
         data.F = 10;
         data.C = 10;
         data.S = 15000;
-        data.C_max[0] = 5000000;
-        data.C_max[1] = 5000000;
-        data.C_max[2] = 5000000;
-        data.C_max[3] = 5000000;
-        data.C_max[4] = 5000000;
+        data.C_max[0] = 1000000;
+        data.C_max[1] = 1000000;
+        data.C_max[2] = 1000000;
+        data.C_max[3] = 1000000;
+        data.C_max[4] = 1000000;
         data.T_max[0] = 73800;
         data.T_max[1] = 73800;
         data.T_max[2] = 73800;
@@ -134,6 +139,16 @@ public class Data {
             }
         }
         
+        excelFilePath = workingDirectory + "//src//gatourism//data_T.xlsx";
+
+        inputStream = new FileInputStream(new File(excelFilePath));
+        workbook = new XSSFWorkbook(inputStream);
+        sheet = (Sheet) workbook.getSheetAt(0);
+        for (int i = 0; i < data.P; i++) {
+            for (int j = 0; j < data.number_of_tags; j++) {
+                data.POI_tags[i][j] = (int) sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
+            }
+        }
         // read distance
 
         excelFilePath = workingDirectory + "//src//gatourism//data_M-New.xlsx";
@@ -168,6 +183,12 @@ public class Data {
         MIN_WATING_TIME = 0;
         
         return data;
+    }
+    
+    public void recalculateRate(){
+        for(int i=0;i<number_of_tags;i++){
+            
+        }
     }
     
     public int calcMaxNumberOfDestination(){
