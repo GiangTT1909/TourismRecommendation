@@ -70,10 +70,15 @@ public class Solution {
 
     public double cal_distance_obj() {
         double distance = 0;
+        int lastLocation = 0;
         for (int i = 0; i < data.K; i++) {
             for (int j = 0; j < this.gene.get(i).size() - 1; j++) {
                 distance += data.D[this.gene.get(i).get(j)][this.gene.get(i).get(j + 1)];
             }
+            if (i > 0){
+                distance += data.D[lastLocation][this.gene.get(i).get(0)];
+            }
+            lastLocation = this.gene.get(i).get(this.gene.get(i).size() - 1);
         }
         return distance;
     }
