@@ -33,6 +33,7 @@ public class GATourism {
           //ArrayList<Solution> result = aco.generateAntColony(data);
           // results.add(result.get(result.size()-1));
      ArrayList<Solution> result = ga.implementGA(data);
+     GA.writeSolution(result);
         //ACO.writeSolution(result,i+"th");
 //}
 //        GA ga = new GA(data);

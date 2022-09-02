@@ -23,20 +23,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Tran Thi Nguyet Ha
  */
 public class Data {
-    
+
     public static double MAX_HAPPINESS = 884.0000004;
     public static double MIN_HAPPINESS = 171.3;
 
     public static double MAX_NUMBER_OF_DESTINATION = 30;
     public static double MIN_NUMBER_OF_DESTINATION = 0;
-    
+
     public static double MAX_WATING_TIME = 43191.16;
     public static double MIN_WATING_TIME = 0;
-    
+
     public static double MAX_DISTANCE = 43191.16;
     public static double MIN_DISTANCE = 0;
-    
-    
+
     int P; // Number destinations;
     Destination[] POI = new Destination[550]; // Destination
     int F; // Number of Factors
@@ -62,18 +61,18 @@ public class Data {
     double w2;
     double w3;
     double w4;
-    
+
     double d_max = 53.85;
     double[] D_imagine = new double[550]; //distance between imagine start and every destination
-    
+
     public Data() {
 
     }
-    
+
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
         data.number_of_tags = 5;
-        data.user_preference =new int[]{0,0,1,1,0};
+        data.user_preference = new int[]{0, 0, 1, 1, 0};
         data.P = 190;
         data.K = 5;
         data.F = 10;
@@ -103,10 +102,8 @@ public class Data {
         data.w2 = 1;
         data.w3 = 1;
         data.w4 = 1;
-        
-
+        data.POI_tags = new int[data.P][data.number_of_tags];
         // read destination data
-
         String workingDirectory = System.getProperty("user.dir");
         String excelFilePath = workingDirectory + "//src//gatourism//data_P.xlsx";
 
@@ -124,7 +121,7 @@ public class Data {
             d.setDuration((float) sheet.getRow(i).getCell(5).getNumericCellValue());
             data.POI[i - 1] = d;
         }
-        
+
         // read rating
         data.factor = new double[data.P][data.F];
 
@@ -138,7 +135,7 @@ public class Data {
                 data.tourist[i][j] = sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
             }
         }
-        
+
         excelFilePath = workingDirectory + "//src//gatourism//data_T.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
@@ -162,48 +159,53 @@ public class Data {
                 data.D[i][j] = sheet.getRow(i + 1).getCell(j + 1).getNumericCellValue();
             }
         }
-        
-        for (int i = 0; i < data.P; i++){
+
+        for (int i = 0; i < data.P; i++) {
             double sum = 0;
-            for (int j = 0; j < data.P; j++){
+            for (int j = 0; j < data.P; j++) {
                 sum += data.D[i][j];
             }
-            data.D_imagine[i] = sum/data.P;
+            data.D_imagine[i] = sum / data.P;
         }
-        
-         // calc max values
+       data.recalculateRate();
+        // calc max values
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
         MAX_DISTANCE = data.calcMaxDistance();
         MAX_HAPPINESS = data.calcMaxHappiness();
         MAX_WATING_TIME = data.calcMaxWaitingTime();
-        
+
         MIN_NUMBER_OF_DESTINATION = 0;
         MIN_DISTANCE = 0;
         MIN_HAPPINESS = 0;
         MIN_WATING_TIME = 0;
-        
+
         return data;
     }
-    
-    public void recalculateRate(){
-        for(int i=0;i<number_of_tags;i++){
-            
+
+    public void recalculateRate() {
+        for (int i = 0; i < P; i++) {
+            int goodTag =0;
+            for (int j = 0; j < number_of_tags; j++) {
+                    goodTag += POI_tags[i][j]*user_preference[j];
+            }
+            tourist[i][C] *=(1.0+ (double)goodTag/(double)number_of_tags);
         }
+
     }
-    
-    public int calcMaxNumberOfDestination(){
+
+    public int calcMaxNumberOfDestination() {
         double[] costArray = new double[P];
-        for (int i = 0; i < this.P; i++){
-            costArray[i] = this.POI[i].getCost() ;
+        for (int i = 0; i < this.P; i++) {
+            costArray[i] = this.POI[i].getCost();
         }
         Arrays.sort(costArray);
         double totalBudget = Arrays.stream(this.C_max).sum();
         int countCost = 0;
         double currentBudget = 0;
-        for (int i = 0; i < costArray.length; i++){
+        for (int i = 0; i < costArray.length; i++) {
             currentBudget += costArray[i];
-            if (currentBudget >= totalBudget){
-                
+            if (currentBudget >= totalBudget) {
+
                 break;
             }
             countCost = i;
@@ -212,21 +214,21 @@ public class Data {
         double totalTimeBudget = Arrays.stream(this.T_max).sum();
         double currentTimeBudget = 0;
         double[] durationArray = new double[P];
-        for (int i = 0; i < this.P; i++){
+        for (int i = 0; i < this.P; i++) {
             durationArray[i] = this.POI[i].getDuration();
         }
         Arrays.sort(durationArray);
-        for (int i = 0; i < durationArray.length; i++){
+        for (int i = 0; i < durationArray.length; i++) {
             currentTimeBudget += durationArray[i];
-            if (currentTimeBudget >= totalTimeBudget){
+            if (currentTimeBudget >= totalTimeBudget) {
                 break;
             }
             countTime = i;
         }
         return Math.min(countCost, countTime) - 1;
     }
-    
-    public double calcMaxDistance(){
+
+    public double calcMaxDistance() {
         double maxElement = Double.MIN_VALUE;
         for (int i = 0; i < P; i++) {
             for (int j = 0; j < P; j++) {
@@ -237,8 +239,8 @@ public class Data {
         }
         return maxElement * (MAX_NUMBER_OF_DESTINATION - 1);
     }
-    
-    public double calcMaxHappiness(){
+
+    public double calcMaxHappiness() {
         double maxElement = Double.MIN_VALUE;
         for (int i = 0; i < P; i++) {
             if (tourist[i][10] > maxElement) {
@@ -247,15 +249,15 @@ public class Data {
         }
         return maxElement * MAX_NUMBER_OF_DESTINATION;
     }
-    
-    public double calcMaxWaitingTime(){
+
+    public double calcMaxWaitingTime() {
         double[] startTimeArray = new double[P];
-        for (int i = 0; i < this.P; i++){
+        for (int i = 0; i < this.P; i++) {
             startTimeArray[i] = this.POI[i].getStart();
         }
         Arrays.sort(startTimeArray);
         double waitingTime = 0;
-        for (int i = P - 1; i >= P - K - 1; i--){
+        for (int i = P - 1; i >= P - K - 1; i--) {
             waitingTime += startTimeArray[i] - t_s[0];
         }
         return waitingTime;
