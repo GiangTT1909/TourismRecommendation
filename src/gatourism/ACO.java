@@ -59,7 +59,7 @@ public class ACO {
         for (int l = 0; l < 200; l++) {
 
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 1000; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {

@@ -29,8 +29,8 @@ public class GATourism {
    
   
      GA ga = new GA(data);
-    // ACO aco = new ACO(data);
-          //ArrayList<Solution> result = aco.generateAntColony(data);
+//     ACO aco = new ACO(data);
+//          ArrayList<Solution> result = aco.generateAntColony(data);
           // results.add(result.get(result.size()-1));
      ArrayList<Solution> result = ga.implementGA(data);
      GA.writeSolution(result);

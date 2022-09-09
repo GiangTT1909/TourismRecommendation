@@ -71,10 +71,10 @@ public class Data {
 
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
-        data.number_of_tags = 5;
-        data.user_preference = new int[]{0, 0, 1, 1, 0};
-        data.P = 190;
-        data.K = 5;
+        data.number_of_tags = 8;
+        data.user_preference = new int[]{0, 0, 1, 1, 0,1,0,1};
+        data.P = 177;
+        data.K = 3;
         data.F = 10;
         data.C = 10;
         data.S = 15000;
@@ -105,7 +105,7 @@ public class Data {
         data.POI_tags = new int[data.P][data.number_of_tags];
         // read destination data
         String workingDirectory = System.getProperty("user.dir");
-        String excelFilePath = workingDirectory + "//src//gatourism//data_P.xlsx";
+        String excelFilePath = workingDirectory + "//src//gatourism//data_P_fix.xlsx";
 
         InputStream inputStream = new FileInputStream(new File(excelFilePath));
 
@@ -125,7 +125,7 @@ public class Data {
         // read rating
         data.factor = new double[data.P][data.F];
 
-        excelFilePath = workingDirectory + "//src//gatourism//data_C.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_C_fix.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
@@ -136,7 +136,7 @@ public class Data {
             }
         }
 
-        excelFilePath = workingDirectory + "//src//gatourism//data_T.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_T_fix.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
@@ -148,7 +148,7 @@ public class Data {
         }
         // read distance
 
-        excelFilePath = workingDirectory + "//src//gatourism//data_M-New.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_M-new.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
