@@ -27,13 +27,15 @@ public class GATourism {
     ArrayList<Solution> results = new ArrayList<>();
 //for(int i=1;i<=14;i++){
    
-  
-     GA ga = new GA(data);
-//     ACO aco = new ACO(data);
-//          ArrayList<Solution> result = aco.generateAntColony(data);
+//  
+//     GA ga = new GA(data);
+//     results =ga.Search(data);
+//     GA.writeSolution(results);
+     ACO aco = new ACO(data);
+          ArrayList<Solution> result = aco.generateAntColony(data);
           // results.add(result.get(result.size()-1));
-     ArrayList<Solution> result = ga.implementGA(data);
-     GA.writeSolution(result);
+//     ArrayList<Solution> result = ga.implementGA(data);
+//     GA.writeSolution(result);
         //ACO.writeSolution(result,i+"th");
 //}
 //        GA ga = new GA(data);

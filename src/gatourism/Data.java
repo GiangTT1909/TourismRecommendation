@@ -71,8 +71,8 @@ public class Data {
 
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
-        data.number_of_tags = 8;
-        data.user_preference = new int[]{0, 0, 1, 1, 0,1,0,1};
+        data.number_of_tags =8;
+        data.user_preference = new int[]{0, 0, 1, 1, 0,0,1,1};
         data.P = 177;
         data.K = 3;
         data.F = 10;
@@ -148,7 +148,7 @@ public class Data {
         }
         // read distance
 
-        excelFilePath = workingDirectory + "//src//gatourism//data_M-new.xlsx";
+        excelFilePath = workingDirectory + "//src//gatourism//data_M_fix.xlsx";
 
         inputStream = new FileInputStream(new File(excelFilePath));
         workbook = new XSSFWorkbook(inputStream);
@@ -160,13 +160,13 @@ public class Data {
             }
         }
 
-        for (int i = 0; i < data.P; i++) {
-            double sum = 0;
-            for (int j = 0; j < data.P; j++) {
-                sum += data.D[i][j];
-            }
-            data.D_imagine[i] = sum / data.P;
-        }
+//        for (int i = 0; i < data.P; i++) {
+//            double sum = 0;
+//            for (int j = 0; j < data.P; j++) {
+//                sum += data.D[i][j];
+//            }
+//            data.D_imagine[i] = sum / data.P;
+//        }
        data.recalculateRate();
         // calc max values
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();

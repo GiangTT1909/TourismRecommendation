@@ -34,7 +34,7 @@ public class ACO {
         for (int i = 0; i < data.P; i++) {
             for (int j = 0; j < data.P; j++) {
                 if (i != j) {
-                    costMatrix[i][j] = data.D[i][j] / data.d_max + (5 - data.tourist[j][10]) / 5;
+                    costMatrix[i][j] = data.D[i][j] / data.d_max + (10 - data.tourist[j][10]) / 10;
                 } else {
                     costMatrix[i][j] = 0;
                 }
@@ -56,10 +56,10 @@ public class ACO {
         ArrayList<Solution> arr = new ArrayList<>();
         ACO Algorithm = new ACO(data);
 
-        for (int l = 0; l < 200; l++) {
+        for (int l = 0; l <100; l++) {
 
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i <500; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
