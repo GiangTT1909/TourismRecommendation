@@ -73,7 +73,7 @@ public class Data {
         Data data = new Data();
         data.number_of_tags =8;
         data.user_preference = new int[]{0, 0, 1, 1, 0,0,1,1};
-        data.P = 177;
+        data.P = 178;
         data.K = 3;
         data.F = 10;
         data.C = 10;
@@ -88,11 +88,11 @@ public class Data {
         data.T_max[2] = 73800;
         data.T_max[3] = 73800;
         data.T_max[4] = 73800;
-        data.t_s[0] = 27000;
-        data.t_s[1] = 27000;
-        data.t_s[2] = 27000;
-        data.t_s[3] = 27000;
-        data.t_s[4] = 27000;
+        data.t_s[0] = 30600;
+        data.t_s[1] = 30600;
+        data.t_s[2] = 30600;
+        data.t_s[3] = 30600;
+        data.t_s[4] = 30600;
         data.t_e[0] = 75600;
         data.t_e[1] = 75600;
         data.t_e[2] = 75600;
