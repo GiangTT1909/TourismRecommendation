@@ -80,7 +80,7 @@ public class Solution {
             }
             lastLocation = this.gene.get(i).get(this.gene.get(i).size() - 1);
         }
-        return distance/cal_number_of_destination_obj();
+        return distance;
     }
 
     public double cal_number_of_destination_obj() {

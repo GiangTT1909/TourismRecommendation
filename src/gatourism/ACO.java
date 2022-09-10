@@ -56,10 +56,10 @@ public class ACO {
         ArrayList<Solution> arr = new ArrayList<>();
         ACO Algorithm = new ACO(data);
 
-        for (int l = 0; l <100; l++) {
+        for (int l = 0; l <300; l++) {
 
             ArrayList<Solution> ants = new ArrayList<>();
-            for (int i = 0; i <500; i++) {
+            for (int i = 0; i <1000; i++) {
                 Solution ant = new Solution(data);
                 ArrayList<Integer> choosen = new ArrayList<>();
                 for (int j = 0; j < data.K; j++) {
@@ -128,7 +128,7 @@ public class ACO {
                 if (index > 20) {
                     break;
                 }
-                //index++;
+                index++;
                 double cost = 0;
                 for (int j = 0; j < data.K; j++) {
                     for (int k = 0; k < ant.gene.get(j).size() - 1; k++) {
