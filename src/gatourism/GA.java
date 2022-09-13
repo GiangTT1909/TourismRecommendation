@@ -304,7 +304,7 @@ public class GA {
         ArrayList<Solution> results = new ArrayList<>();
         ArrayList<Solution> population = new ArrayList<>();
         //Generation 
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 6000; i++) {
             population.add(generatePopulation(data));
         }
         Collections.sort(population, new Comparator<Solution>() {
@@ -318,16 +318,16 @@ public class GA {
             //Selection
 
             ArrayList<Solution> nextPopulation = new ArrayList<>();
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < 600; i++) {
                 nextPopulation.add(population.get(i));
             }
             //Crossover
-            for (int i = 0; i < 2700; i++) {
+            for (int i = 0; i < 5400; i++) {
                 Random rand = new Random();
-                int mom = rand.nextInt(3000);
-                int dad = rand.nextInt(3000);
+                int mom = rand.nextInt(6000);
+                int dad = rand.nextInt(6000);
                 while (mom == dad) {
-                    dad = rand.nextInt(3000);
+                    dad = rand.nextInt(6000);
                 }
                 //nextPopulation.add(crossover(population.get(dad), population.get(mom), data));
                 nextPopulation.add(mutation(population.get(mom), data));
@@ -343,7 +343,7 @@ public class GA {
             //mutation
             for (int i = 0; i < 600; i++) {
                 Random rand = new Random();
-                int choosen = rand.nextInt(2900);
+                int choosen = rand.nextInt(5900);
                 choosen += 100;
                 nextPopulation.set(choosen, mutation2(nextPopulation.get(choosen), data));
             }

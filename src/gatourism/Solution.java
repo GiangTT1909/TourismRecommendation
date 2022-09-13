@@ -65,7 +65,7 @@ public class Solution {
                 happiness += data.tourist[index][data.C];
             }
         }
-        return happiness;
+        return happiness/cal_number_of_destination_obj();
     }
 
     public double cal_distance_obj() {
@@ -80,7 +80,7 @@ public class Solution {
             }
             lastLocation = this.gene.get(i).get(this.gene.get(i).size() - 1);
         }
-        return distance/cal_number_of_destination_obj();
+        return distance;
     }
 
     public double cal_number_of_destination_obj() {
@@ -94,7 +94,16 @@ public class Solution {
     public double cal_waiting_time_obj() {
         double waiting_time = 0;
         for (int i = 0; i < data.K; i++) {
-            double current_time = data.t_s[i] + data.POI[this.gene.get(i).get(0)].getDuration();
+            
+            double current_time = data.t_s[i];
+            if(current_time<data.POI[this.gene.get(i).get(0)].getStart()){
+                
+                waiting_time +=  data.POI[this.gene.get(i).get(0)].getStart()-current_time;
+                current_time=data.POI[this.gene.get(i).get(0)].getDuration()+data.POI[this.gene.get(i).get(0)].getStart();
+            }
+            else{
+                current_time+=data.POI[this.gene.get(i).get(0)].getDuration();
+            }
             for (int j = 1; j < this.gene.get(i).size(); j++) {
                 if (current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * 90 < data.POI[this.gene.get(i).get(j)].getStart()) {
                     waiting_time += data.POI[this.gene.get(i).get(j)].getStart() - current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * 90;
@@ -110,17 +119,17 @@ public class Solution {
         objectives[0] = cal_distance_obj();
         objectives[1] = cal_waiting_time_obj();
         objectives[2] = Math.abs(cal_hapiness_obj() - data.MAX_HAPPINESS);
-        objectives[3] =Math.abs(cal_number_of_destination_obj() - data.MAX_NUMBER_OF_DESTINATION);
+        objectives[3] = Math.abs(cal_number_of_destination_obj() - data.MAX_NUMBER_OF_DESTINATION);
     }
     public double cal_fitness() {
 
         
 
         double fitness = 0;
-        fitness += Math.pow((cal_distance_obj() - data.MIN_DISTANCE) / (data.MAX_DISTANCE - data.MIN_DISTANCE), 2) * data.w1;
-        fitness += Math.pow((data.MIN_WATING_TIME - cal_waiting_time_obj()) / (data.MAX_WATING_TIME - data.MIN_WATING_TIME), 2) * data.w2;
+        fitness += Math.pow((cal_distance_obj() - Data.MIN_DISTANCE) / (data.MAX_DISTANCE - data.MIN_DISTANCE), 2) * data.w1;
+        fitness += Math.pow((Data.MIN_WATING_TIME - cal_waiting_time_obj()) / (Data.MAX_WATING_TIME - data.MIN_WATING_TIME), 2) * data.w2;
         fitness += Math.pow((cal_hapiness_obj() - data.MAX_HAPPINESS) / (data.MAX_HAPPINESS - data.MIN_HAPPINESS), 2) * data.w3;
-        fitness += Math.pow((cal_number_of_destination_obj() - data.MAX_NUMBER_OF_DESTINATION) / (data.MAX_NUMBER_OF_DESTINATION - data.MIN_NUMBER_OF_DESTINATION), 2) * data.w4;
+        fitness += Math.pow((cal_number_of_destination_obj() - Data.MAX_NUMBER_OF_DESTINATION) / (data.MAX_NUMBER_OF_DESTINATION - data.MIN_NUMBER_OF_DESTINATION), 2) * data.w4;
         fitness = Math.sqrt(fitness);
         return fitness;
     }

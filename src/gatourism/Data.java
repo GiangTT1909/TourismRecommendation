@@ -171,7 +171,7 @@ public class Data {
         // calc max values
         MAX_NUMBER_OF_DESTINATION = data.calcMaxNumberOfDestination();
         MAX_DISTANCE = data.calcMaxDistance();
-        MAX_HAPPINESS = data.calcMaxHappiness();
+        MAX_HAPPINESS = 10;
         MAX_WATING_TIME = data.calcMaxWaitingTime();
 
         MIN_NUMBER_OF_DESTINATION = 0;
