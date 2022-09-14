@@ -65,21 +65,21 @@ public class ACO {
                 for (int j = 0; j < data.K; j++) {
                     int startLocation = 0;
                     double budget = data.POI[startLocation].getCost();
-                    double currentTime = 27000;
+                    double currentTime = data.t_s[j];
                     int currentLocation = startLocation;
                     ArrayList<Integer> oneTrip = new ArrayList<>();
-                    while (budget < data.C_max[j] || currentTime < data.T_max[j]) {
+                    while (budget < data.C_max[j] && currentTime < data.t_e[j]) {
 
                         ArrayList<Integer> canVisited = new ArrayList<>();
                         for (int k = 1; k < data.P; k++) {
                             double timePrediction;
                             if (currentLocation == 0) {
 
-                                timePrediction = currentTime + data.POI[k].getDuration();
+                                timePrediction = Double.max(currentTime,data.POI[k].getStart()) + data.POI[k].getDuration();
                             } else {
-                                timePrediction = currentTime + data.POI[k].getDuration() + data.D[k][currentLocation] * 90;
+                                timePrediction = Double.max(currentTime + data.D[k][currentLocation] * 90,data.POI[k].getStart())  + data.POI[k].getDuration() ;
                             }
-                            if (timePrediction <= data.T_max[j] && choosen.indexOf(k) < 0) {
+                            if (timePrediction <= data.t_e[j] && choosen.indexOf(k) < 0) {
                                 if (currentLocation == 0) {
                                     if (budget + data.POI[k].getCost() < data.C_max[j]) {
                                         canVisited.add(k);

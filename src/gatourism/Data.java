@@ -78,9 +78,9 @@ public class Data {
         data.F = 10;
         data.C = 10;
         data.S = 15000;
-        data.C_max[0] = 1000000;
-        data.C_max[1] = 1000000;
-        data.C_max[2] = 1000000;
+        data.C_max[0] = 100000000;
+        data.C_max[1] = 100000000;
+        data.C_max[2] = 100000000;
         data.C_max[3] = 1000000;
         data.C_max[4] = 1000000;
         data.T_max[0] = 73800;
