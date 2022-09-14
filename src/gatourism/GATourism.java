@@ -51,12 +51,13 @@ for(int i=1;i<=15;i++){
 //            s.gene = gene;
 //            s.printSolution();
 //   
-    GA ga = new GA(data);
-   results =ga.implementGA(data);
+    ACO aco = new ACO(data);
+    results = aco.generateAntColony(data);
+//    GA ga = new GA(data);
+//   results =ga.implementGA(data);
    results.get(results.size()-1).printSolution();
 //    GA.writeSolution(results);
-//    ACO aco = new ACO(data);
-//     ArrayList<Solution> result = aco.generateAntColony(data);
+
 //     results.add(result.get(result.size()-1));
           // results.add(result.get(result.size()-1));
 //     ArrayList<Solution> result = ga.implementGA(data);

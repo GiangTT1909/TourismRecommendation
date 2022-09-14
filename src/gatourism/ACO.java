@@ -104,10 +104,10 @@ public class ACO {
                         oneTrip.add(random);
                         if (currentLocation == 0) {
                             budget += data.POI[random].getCost();
-                            currentTime += data.POI[random].getDuration();
+                            currentTime = Double.max(currentTime,data.POI[random].getStart())+ data.POI[random].getDuration();
                         } else {
                             budget += data.S * data.D[currentLocation][random] + data.POI[random].getCost();
-                            currentTime += data.D[currentLocation][random] * 90 + data.POI[random].getDuration();
+                            currentTime =  Double.max(currentTime + data.D[random][currentLocation] * 90,data.POI[random].getStart()) + data.POI[random].getDuration();
                         }
 
                         currentLocation = random;
