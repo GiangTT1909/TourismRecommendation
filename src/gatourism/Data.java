@@ -61,7 +61,7 @@ public class Data {
     double w2;
     double w3;
     double w4;
-
+    double v;
     double d_max = 53.85;
     double[] D_imagine = new double[550]; //distance between imagine start and every destination
 
@@ -72,32 +72,45 @@ public class Data {
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
         data.number_of_tags =8;
-        data.user_preference = new int[]{0, 0, 1, 1, 0,0,1,1};
+        data.user_preference = new int[]{0, 0, 1, 1, 0,0,0,1};
         data.P = 178;
-        data.K = 3;
+        data.K = 7;
         data.F = 10;
         data.C = 10;
         data.S = 15000;
-        data.C_max[0] = 100000000;
-        data.C_max[1] = 100000000;
-        data.C_max[2] = 100000000;
+        data.v=360;
+        data.C_max[0] = 1000000;
+        data.C_max[1] = 1000000;
+        data.C_max[2] = 1000000;
         data.C_max[3] = 1000000;
         data.C_max[4] = 1000000;
-        data.T_max[0] = 73800;
-        data.T_max[1] = 73800;
-        data.T_max[2] = 73800;
-        data.T_max[3] = 73800;
-        data.T_max[4] = 73800;
+        data.C_max[5] = 1000000;
+        data.C_max[6] = 1000000;
+        data.C_max[7] = 1000000;
+        data.T_max[0] = 45000;
+        data.T_max[1] = 45000;
+        data.T_max[2] = 45000;
+        data.T_max[3] = 45000;
+        data.T_max[4] = 45000;
+        data.T_max[5] = 45000;
+        data.T_max[6] = 45000;
+        data.T_max[7] = 45000;
         data.t_s[0] = 30600;
         data.t_s[1] = 30600;
         data.t_s[2] = 30600;
         data.t_s[3] = 30600;
         data.t_s[4] = 30600;
+        data.t_s[5] = 30600;
+        data.t_s[6] = 30600;
+        data.t_s[7] = 30600;
         data.t_e[0] = 75600;
         data.t_e[1] = 75600;
         data.t_e[2] = 75600;
         data.t_e[3] = 75600;
         data.t_e[4] = 75600;
+        data.t_e[5] = 75600;
+        data.t_e[6] = 75600;
+        data.t_e[7] = 75600;
         data.w1 = 1;
         data.w2 = 1;
         data.w3 = 1;

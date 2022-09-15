@@ -146,10 +146,10 @@ public class GA {
             fullTrip.remove(0);
 
             while (true) {
-                double predict = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-                if (Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
+                double predict = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                if (Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
                         && cost + data.POI[fullTrip.get(0)].getCost() < data.C_max[i]) {
-                    time = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                    time = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
                     cost += data.POI[fullTrip.get(0)].getCost();
                     current = fullTrip.get(0);
                     dayTrip.add(fullTrip.get(0));
@@ -193,10 +193,10 @@ public class GA {
             fullTrip.remove(0);
 
             while (fullTrip.size() > 0) {
-                double predict = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-                if (Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
+                double predict = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                if (Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
                         && cost + data.POI[fullTrip.get(0)].getCost() < data.C_max[i]) {
-                    time = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                    time = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
                     cost += data.POI[fullTrip.get(0)].getCost();
                     current = fullTrip.get(0);
                     dayTrip.add(fullTrip.get(0));
@@ -238,7 +238,7 @@ public class GA {
             int currentPOI = s.gene.get(tripNumber).get(i);
             newTrip.add(currentPOI);
             poiList.remove(poiList.indexOf(currentPOI));
-            time = Double.max(time + data.D[currentPOI][s.gene.get(tripNumber).get(i + 1)] * 90, data.POI[s.gene.get(tripNumber).get(i + 1)].getStart()) + data.POI[s.gene.get(tripNumber).get(i + 1)].getDuration();
+            time = Double.max(time + data.D[currentPOI][s.gene.get(tripNumber).get(i + 1)] * data.v, data.POI[s.gene.get(tripNumber).get(i + 1)].getStart()) + data.POI[s.gene.get(tripNumber).get(i + 1)].getDuration();
             cost += data.POI[s.gene.get(tripNumber).get(i)].getCost();
         }
 
@@ -252,10 +252,10 @@ public class GA {
             fullTrip.add(getNum(poiList));
         }
         while (fullTrip.size() > 0) {
-            //double predict = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-            if (Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[tripNumber]
+            //double predict = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+            if (Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[tripNumber]
                     && cost + data.POI[fullTrip.get(0)].getCost() < data.C_max[tripNumber]) {
-                time = Double.max(time + data.D[current][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                time = Double.max(time + data.D[current][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
                 cost += data.POI[fullTrip.get(0)].getCost();
                 current = fullTrip.get(0);
                 newTrip.add(fullTrip.get(0));
@@ -276,10 +276,10 @@ public class GA {
             int currentPOI = fullTrip.get(0);
             fullTrip.remove(0);
             while (fullTrip.size() > 0) {
-                //double predict = Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
-                if (Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
+                //double predict = Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                if (Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration() < data.t_e[i]
                         && newCost + data.POI[fullTrip.get(0)].getCost() < data.C_max[i]) {
-                    newTime = Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * 90, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
+                    newTime = Double.max(newTime + data.D[currentPOI][fullTrip.get(0)] * data.v, data.POI[fullTrip.get(0)].getStart()) + data.POI[fullTrip.get(0)].getDuration();
                     newCost += data.POI[fullTrip.get(0)].getCost();
                     currentPOI = fullTrip.get(0);
                     dayTrip.add(fullTrip.get(0));

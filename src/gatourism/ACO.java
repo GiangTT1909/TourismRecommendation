@@ -77,7 +77,7 @@ public class ACO {
 
                                 timePrediction = Double.max(currentTime,data.POI[k].getStart()) + data.POI[k].getDuration();
                             } else {
-                                timePrediction = Double.max(currentTime + data.D[k][currentLocation] * 90,data.POI[k].getStart())  + data.POI[k].getDuration() ;
+                                timePrediction = Double.max(currentTime + data.D[k][currentLocation] * data.v,data.POI[k].getStart())  + data.POI[k].getDuration() ;
                             }
                             if (timePrediction <= data.t_e[j] && choosen.indexOf(k) < 0) {
                                 if (currentLocation == 0) {
@@ -107,7 +107,7 @@ public class ACO {
                             currentTime = Double.max(currentTime,data.POI[random].getStart())+ data.POI[random].getDuration();
                         } else {
                             budget += data.S * data.D[currentLocation][random] + data.POI[random].getCost();
-                            currentTime =  Double.max(currentTime + data.D[random][currentLocation] * 90,data.POI[random].getStart()) + data.POI[random].getDuration();
+                            currentTime =  Double.max(currentTime + data.D[random][currentLocation] * data.v,data.POI[random].getStart()) + data.POI[random].getDuration();
                         }
 
                         currentLocation = random;
@@ -189,7 +189,7 @@ public class ACO {
 //                            
 //                            else
 //                            {
-//                                timePrediction = currentTime + data.D[currentLocation+data.H][k + data.H]*90 + data.POI[k].getDuration() + data.D[k + data.H][ant.hotel]*90;
+//                                timePrediction = currentTime + data.D[currentLocation+data.H][k + data.H]*data.v + data.POI[k].getDuration() + data.D[k + data.H][ant.hotel]*data.v;
 //                            }
 //                            if (timePrediction <= data.T_max[j] && chosen.indexOf(k) < 0) {
 //                                if (currentLocation == 0) {
@@ -219,7 +219,7 @@ public class ACO {
 //                        } else {
 //                            budget += data.S * data.D[currentLocation + data.H][nextDest + data.H] + data.POI[nextDest].getCost();
 //                        }
-//                        currentTime += data.D[currentLocation][nextDest + data.H]*90 + data.POI[nextDest].getDuration();
+//                        currentTime += data.D[currentLocation][nextDest + data.H]*data.v + data.POI[nextDest].getDuration();
 //                        currentLocation = nextDest;
 //                        chosen.add(nextDest);
 //

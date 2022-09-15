@@ -105,11 +105,11 @@ public class Solution {
                 current_time+=data.POI[this.gene.get(i).get(0)].getDuration();
             }
             for (int j = 1; j < this.gene.get(i).size(); j++) {
-                if (current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * 90 < data.POI[this.gene.get(i).get(j)].getStart()) {
-                    waiting_time += data.POI[this.gene.get(i).get(j)].getStart() - current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * 90;
+                if (current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * data.v < data.POI[this.gene.get(i).get(j)].getStart()) {
+                    waiting_time += data.POI[this.gene.get(i).get(j)].getStart() - current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * data.v;
 
                 }
-                current_time = Double.max(current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * 90, data.POI[this.gene.get(i).get(j)].getStart()) + data.POI[this.gene.get(i).get(j)].getDuration();
+                current_time = Double.max(current_time + data.D[this.gene.get(i).get(j - 1)][this.gene.get(i).get(j)] * data.v, data.POI[this.gene.get(i).get(j)].getStart()) + data.POI[this.gene.get(i).get(j)].getDuration();
             }
         }
         return waiting_time;
@@ -141,8 +141,8 @@ public class Solution {
             double currentTime = Double.max(data.t_s[i], data.POI[trip.get(0)].getStart());
             for (int j = 0; j < trip.size() - 1; j++) {
                 System.out.println(data.POI[trip.get(j)].getTitle() + ": " + currentTime / 3600 + " -> " + (currentTime + data.POI[trip.get(j)].getDuration()) / 3600);
-                //currentTime += data.POI[trip.get(j)].getDuration() + data.D[trip.get(j)][trip.get(j+1)]*90;
-                currentTime = Double.max(currentTime + data.D[this.gene.get(i).get(j)][this.gene.get(i).get(j + 1)] * 90, data.POI[this.gene.get(i).get(j)].getStart()) + data.POI[this.gene.get(i).get(j)].getDuration();
+                //currentTime += data.POI[trip.get(j)].getDuration() + data.D[trip.get(j)][trip.get(j+1)]*data.v;
+                currentTime = Double.max(currentTime + data.D[this.gene.get(i).get(j)][this.gene.get(i).get(j + 1)] * data.v, data.POI[this.gene.get(i).get(j)].getStart()) + data.POI[this.gene.get(i).get(j)].getDuration();
             }
             System.out.println(data.POI[trip.get(trip.size() - 1)].getTitle() + ": " + currentTime / 3600 + " -> " + (currentTime + data.POI[trip.get(trip.size() - 1)].getDuration()) / 3600);
         }
