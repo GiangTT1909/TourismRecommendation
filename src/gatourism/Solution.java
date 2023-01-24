@@ -131,6 +131,7 @@ public class Solution {
         fitness += Math.pow((cal_hapiness_obj() - data.MAX_HAPPINESS) / (data.MAX_HAPPINESS - data.MIN_HAPPINESS), 2) * data.w3;
         fitness += Math.pow((cal_number_of_destination_obj() - Data.MAX_NUMBER_OF_DESTINATION) / (data.MAX_NUMBER_OF_DESTINATION - data.MIN_NUMBER_OF_DESTINATION), 2) * data.w4;
         fitness = Math.sqrt(fitness);
+//          fitness=fitness+data.w1*cal_distance_obj()+data.w2*cal_waiting_time_obj()-data.w3*cal_hapiness_obj()-data.w4*cal_number_of_destination_obj();
         return fitness;
     }
 

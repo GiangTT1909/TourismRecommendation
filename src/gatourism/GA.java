@@ -314,7 +314,7 @@ public class GA {
                 return Double.compare(o1.cal_fitness(), o2.cal_fitness());
             }
         });
-        for (int j = 0; j < 300; j++) {
+        for (int j = 0; j < 250; j++) {
             //Selection
 
             ArrayList<Solution> nextPopulation = new ArrayList<>();

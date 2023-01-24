@@ -72,9 +72,9 @@ public class Data {
     public static Data getDatafromFile() throws FileNotFoundException, IOException {
         Data data = new Data();
         data.number_of_tags =8;
-        data.user_preference = new int[]{0, 0, 1, 1, 0,0,0,1};
-        data.P = 178;
-        data.K = 7;
+        data.user_preference = new int[]{0, 0, 0, 1, 1,0,0,1};
+        data.P = 175;
+        data.K =7;
         data.F = 10;
         data.C = 10;
         data.S = 15000;
@@ -94,7 +94,7 @@ public class Data {
         data.T_max[4] = 45000;
         data.T_max[5] = 45000;
         data.T_max[6] = 45000;
-        data.T_max[7] = 45000;
+//        data.T_max[7] = 45000;
         data.t_s[0] = 30600;
         data.t_s[1] = 30600;
         data.t_s[2] = 30600;

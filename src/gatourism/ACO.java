@@ -56,7 +56,7 @@ public class ACO {
         ArrayList<Solution> arr = new ArrayList<>();
         ACO Algorithm = new ACO(data);
 
-        for (int l = 0; l <300; l++) {
+        for (int l = 0; l <400; l++) {
 
             ArrayList<Solution> ants = new ArrayList<>();
             for (int i = 0; i <1000; i++) {
@@ -148,7 +148,7 @@ public class ACO {
             }
             for (int i = 0; i < data.P; i++) {
                 for (int j = 0; j < data.P; j++) {
-                    Algorithm.pheromoneMatrix[i][j] = 0.7 * Algorithm.pheromoneMatrix[i][j] + Algorithm.temporaryMatrix[i][j];
+                    Algorithm.pheromoneMatrix[i][j] = 0.6 * Algorithm.pheromoneMatrix[i][j] + Algorithm.temporaryMatrix[i][j];
                     Algorithm.temporaryMatrix[i][j] = 0;
                 }
             }
